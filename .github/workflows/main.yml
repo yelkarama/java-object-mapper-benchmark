@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - master
-      - 'releases/*'
+      - 'release/*'
+      - 'feature/*'
   pull_request:
     branches:
       - '*'
@@ -27,6 +28,7 @@ jobs:
     needs: linux
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         mapper: [Manual, MapStruct, Selma, JMapper, datus, Orika, ModelMapper, BULL, Dozer]
     steps:
