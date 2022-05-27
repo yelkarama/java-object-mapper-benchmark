@@ -1,6 +1,5 @@
 package com.javaetmoi.benchmark;
 
-import com.javaetmoi.benchmark.mapping.mapper.OrderMapper;
 import com.javaetmoi.benchmark.mapping.mapper.bull.BullMapper;
 import com.javaetmoi.benchmark.mapping.mapper.datus.DatusMapper;
 import com.javaetmoi.benchmark.mapping.mapper.dozer.DozerMapper;
@@ -14,7 +13,11 @@ import com.javaetmoi.benchmark.mapping.mapper.selma.SelmaMapper;
 import com.javaetmoi.benchmark.mapping.model.dto.OrderDTO;
 import com.javaetmoi.benchmark.mapping.model.entity.Order;
 import com.javaetmoi.benchmark.mapping.model.entity.OrderFactory;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.results.format.ResultFormatType;
@@ -24,52 +27,9 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.Collection;
 
-@State(Scope.Benchmark)
+@State(Scope.Thread)
 public class MapperBenchmark {
-
-    @Param({"Manual", "MapStruct", "Selma", "JMapper", "datus", "Orika", "ModelMapper", "BULL", "Dozer", "ReMap"})
-    private String type;
-
-    private OrderMapper mapper;
     private Order order;
-
-    @Setup(Level.Trial)
-    public void setup() {
-        switch (type) {
-            case "Dozer":
-                mapper = new DozerMapper();
-                break;
-            case "Orika":
-                mapper = new OrikaMapper();
-                break;
-            case "ModelMapper":
-                mapper = new ModelMapper();
-                break;
-            case "MapStruct":
-                mapper = new MapStructMapper();
-                break;
-            case "Selma":
-                mapper = new SelmaMapper();
-                break;
-            case "JMapper":
-                mapper = new JMapperMapper();
-                break;
-            case "Manual":
-                mapper = new ManualMapper();
-                break;
-            case "BULL":
-                mapper = new BullMapper();
-                break;
-            case "datus":
-                mapper = new DatusMapper();
-                break;
-            case "ReMap":
-                mapper = new ReMappeMapper();
-                break;
-            default:
-                throw new IllegalStateException("Unknown type: " + type);
-        }
-    }
 
     @Setup(Level.Iteration)
     public void preInit() {
@@ -77,9 +37,27 @@ public class MapperBenchmark {
     }
 
     @Benchmark
-    public OrderDTO mapper() {
-        return mapper.map(order);
-    }
+    public OrderDTO DozerMapperBenchmark() { return new DozerMapper().map(order); }
+
+    @Benchmark
+    public OrderDTO OrikaMapperBenchmark() { return new OrikaMapper().map(order); }
+
+    @Benchmark
+    public OrderDTO ModelMapperBenchmark() { return new ModelMapper().map(order); }
+    @Benchmark
+    public OrderDTO MapStructMapperBenchmark() { return new MapStructMapper().map(order); }
+    @Benchmark
+    public OrderDTO SelmaMapperBenchmark() { return new SelmaMapper().map(order); }
+    @Benchmark
+    public OrderDTO JMapperMapperBenchmark() { return new JMapperMapper().map(order); }
+    @Benchmark
+    public OrderDTO ManualMapperBenchmark() { return new ManualMapper().map(order); }
+    @Benchmark
+    public OrderDTO BullMapperBenchmark() { return new BullMapper().map(order); }
+    @Benchmark
+    public OrderDTO DatusMapperBenchmark() { return new DatusMapper().map(order); }
+    @Benchmark
+    public OrderDTO ReMappeMapperBenchmark() { return new ReMappeMapper().map(order); }
 
     public static void main(String... args) throws Exception {
         Options opts = new OptionsBuilder()
