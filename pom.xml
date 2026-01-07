@@ -19,7 +19,7 @@
         <version.jmh>1.35</version.jmh>
         <version.bull>1.7.3-jdk8</version.bull>
         <version.datus>1.5.0</version.datus>
-        <version.remap>4.2.6</version.remap>
+        <version.remap>4.4.2</version.remap>
         <version.junit>4.13.2</version.junit>
         <version.slf4j>1.7.36</version.slf4j>
 
@@ -178,8 +178,7 @@
                         <configuration>
                             <finalName>${uberjar.name}</finalName>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>org.openjdk.jmh.Main</mainClass>
                                 </transformer>
                             </transformers>
